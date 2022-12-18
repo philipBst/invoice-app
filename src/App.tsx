@@ -1,5 +1,7 @@
-import { Suspense } from 'react'
+import { Suspense, Fragment } from 'react'
 import { useRoutes } from 'react-router-dom'
+
+import { Sidebar } from './components'
 
 import InvoiceProvider from './contexts/InvoiceContext'
 
@@ -8,9 +10,12 @@ import routes from './routes'
 function App() {
   const content = useRoutes(routes)
   return (
-    <Suspense fallback={<></>}>
-      <InvoiceProvider>{content}</InvoiceProvider>
-    </Suspense>
+    <Fragment>
+      <Sidebar />
+      <Suspense fallback={<></>}>
+        <InvoiceProvider>{content}</InvoiceProvider>
+      </Suspense>
+    </Fragment>
   )
 }
 
