@@ -5,10 +5,11 @@ import { Invoicebar } from '../components'
 
 const InvoicesPage = () => {
   const { invoices, dispatch } = useInvoice()
-  console.log(invoices)
+
   useEffect(() => {
     getInvoices(dispatch)
   }, [dispatch])
+
   return (
     <main className="flex items-center justify-center w-full">
       <section className="m-10 space-y-10">
@@ -44,13 +45,9 @@ const InvoicesPage = () => {
           </aside>
         </div>
         <ul className="w-full space-y-4">
-          <Invoicebar />
-          <Invoicebar />
-          <Invoicebar />
-          <Invoicebar />
-          <Invoicebar />
-          <Invoicebar />
-          <Invoicebar />
+          {invoices.map(invoice => (
+            <Invoicebar key={invoice.id} {...invoice} />
+          ))}
         </ul>
       </section>
     </main>
