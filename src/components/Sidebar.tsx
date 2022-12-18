@@ -1,4 +1,4 @@
-import { IconSun } from './icons'
+import { SunIcon } from './icons'
 
 const Sidebar = () => (
   <aside className="fixed left-0 top-0 bottom-0 w-24 overflow-hidden rounded-tr-3xl rounded-br-3xl bg-sys-color-2">
@@ -7,7 +7,7 @@ const Sidebar = () => (
     </div>
     <div className="divide-sys-color-4 absolute bottom-0 z-10 w-full divide-y-2">
       <section className="flex items-center justify-center py-6">
-        <IconSun />
+        <SunIcon />
       </section>
       <section className="flex items-center justify-center py-6">
         {/* This img url should come from props */}
