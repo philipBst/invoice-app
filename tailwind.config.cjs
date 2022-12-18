@@ -14,6 +14,7 @@ module.exports = {
         'sys-color-5': '#b2b4ce',
         'sys-color-6': '#7a85bf',
         'sys-color-7': '#33d79e',
+        'sys-color-8': '#fcfcfd',
       },
     },
   },
