@@ -14,9 +14,11 @@ const Invoicebar: React.FC<IInvoice> = ({
   status,
 }) => {
   const navigate = useNavigate()
+
   const goToInvoiceDetailPage = useCallback(() => {
     navigate(`/invoices/${id}`)
   }, [navigate])
+
   return (
     <li className="table-row w-full bg-sys-color-2">
       <span className="table-cell py-4 px-6 rounded-tl-md rounded-bl-md">
