@@ -11,18 +11,22 @@ const Invoicebar: React.FC<IInvoice> = ({
   total,
   status,
 }) => (
-  <li className="flex w-full items-center justify-between rounded-md bg-sys-color-2 py-4 px-5">
-    <span className="flex gap-0">
+  <li className="table-row w-full bg-sys-color-2">
+    <span className="table-cell py-4 px-6 rounded-tl-md rounded-bl-md">
       <span className="text-sys-color-6">#</span>
-      <span>{id}</span>
+      {id}
     </span>
-    <span className="text-sys-color-5">
+    <span className="table-cell py-4 px-6 text-sys-color-5">
       Due {format(new Date(paymentDue), 'dd MMM yyyy')}
     </span>
-    <span>{clientName}</span>
-    <span className="text-lg font-bold">£{total}</span>
-    <InvoiceStatusChip status={status} />
-    <span>
+    <span className="table-cell py-4 px-6">{clientName}</span>
+    <span className="table-cell py-4 px-6 text-lg font-bold text-right">
+      £{total}
+    </span>
+    <span className="table-cell py-4 px-6">
+      <InvoiceStatusChip status={status} />
+    </span>
+    <span className="table-cell py-4 px-6 rounded-tr-md rounded-br-md">
       <ArrowRightIcon />
     </span>
   </li>
