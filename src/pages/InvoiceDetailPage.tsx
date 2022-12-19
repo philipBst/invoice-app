@@ -1,15 +1,23 @@
-import { useCallback, useEffect } from 'react'
+import { format } from 'date-fns'
+import { useCallback, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import { InvoiceStatusChip } from '../components'
 import { ArrowLeftIcon, NothingHereIllustration } from '../components/icons'
 import { getInvoiceByID, useInvoice } from '../contexts/InvoiceContext'
+import { deleteInvoice } from '../services/invoice.service'
 import { isEmptyArray } from '../utils/array-utils'
 
 const InvoiceDetailPage = () => {
   const { invoiceId } = useParams()
   const navigate = useNavigate()
   const { invoices, dispatch } = useInvoice()
+
+  const dialogRef = useRef<HTMLDialogElement>(null)
+
+  const openPropmptDialog = () => {
+    dialogRef.current?.showModal()
+  }
 
   useEffect(() => {
     if (invoiceId) getInvoiceByID(invoiceId, dispatch)
@@ -18,6 +26,11 @@ const InvoiceDetailPage = () => {
   const goToInvoicesPage = useCallback(() => {
     navigate('/invoices')
   }, [navigate])
+
+  const deleteInvoiceById = useCallback(async () => {
+    if (invoiceId) await deleteInvoice(invoiceId)
+    navigate('/invoices')
+  }, [])
 
   return (
     <main className="flex min-h-screen w-full justify-center bg-sys-color-1 text-white pb-8">
@@ -39,13 +52,16 @@ const InvoiceDetailPage = () => {
             <div className="bg-sys-color-11 flex items-center gap-52 rounded-md py-4 px-6">
               <section className="flex items-center gap-4">
                 <span>Status</span>
-                <InvoiceStatusChip status="pending" />
+                <InvoiceStatusChip status={invoices[0]!.status} />
               </section>
               <section className="flex items-center gap-4">
                 <button className="bg-sys-color-12 rounded-full py-3 px-5">
                   Edit
                 </button>
-                <button className="bg-sys-color-13 rounded-full py-3 px-5">
+                <button
+                  className="bg-sys-color-13 rounded-full py-3 px-5"
+                  onClick={openPropmptDialog}
+                >
                   Delete
                 </button>
                 <button className="rounded-full bg-sys-color-3 py-3 px-5">
@@ -58,18 +74,24 @@ const InvoiceDetailPage = () => {
                 <div className="space-y-1">
                   <span className="flex gap-0 text-lg font-bold">
                     <span className="text-sys-color-6">#</span>
-                    <span>RT3080</span>
+                    <span>{invoices[0]!.id}</span>
                   </span>
-                  <p className="text-sys-color-14 text-sm">Graphic Design</p>
+                  <p className="text-sys-color-14 text-sm">
+                    {invoices[0]!.description}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sys-color-14 text-right text-sm">
-                    19 Union Terrace
+                    {invoices[0]!.senderAddress.street}
                   </p>
-                  <p className="text-sys-color-14 text-right text-sm">London</p>
-                  <p className="text-sys-color-14 text-right text-sm">E1 3EZ</p>
                   <p className="text-sys-color-14 text-right text-sm">
-                    United Kingdom
+                    {invoices[0]!.senderAddress.city}
+                  </p>
+                  <p className="text-sys-color-14 text-right text-sm">
+                    {invoices[0]!.senderAddress.postCode}
+                  </p>
+                  <p className="text-sys-color-14 text-right text-sm">
+                    {invoices[0]!.senderAddress.country}
                   </p>
                 </div>
               </section>
@@ -77,26 +99,42 @@ const InvoiceDetailPage = () => {
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <p className="text-sys-color-14 text-sm">Invoice Date</p>
-                    <p className="text-lg font-semibold">21 Aug 2021</p>
+                    <p className="text-lg font-semibold">
+                      {format(new Date(invoices[0]!.createdAt), 'dd MMM yyy')}
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-sys-color-14 text-sm">Payment Due</p>
-                    <p className="text-lg font-semibold">21 Aug 2021</p>
+                    <p className="text-lg font-semibold">
+                      {format(new Date(invoices[0]!.paymentDue), 'dd MMM yyy')}
+                    </p>
                   </div>
                 </div>
                 <div>
                   <div className="mb-1 space-y-1">
                     <p className="text-sys-color-14 text-sm">Bill To</p>
-                    <p className="text-lg font-semibold">Alex Grim</p>
+                    <p className="text-lg font-semibold">
+                      {invoices[0]!.clientName}
+                    </p>
                   </div>
-                  <p className="text-sys-color-14 text-sm">84 Church Way</p>
-                  <p className="text-sys-color-14 text-sm">Bradford</p>
-                  <p className="text-sys-color-14 text-sm">BD1 9PB</p>
-                  <p className="text-sys-color-14 text-sm">United Kingdom</p>
+                  <p className="text-sys-color-14 text-sm">
+                    {invoices[0]!.clientAddress.street}
+                  </p>
+                  <p className="text-sys-color-14 text-sm">
+                    {invoices[0]!.clientAddress.city}
+                  </p>
+                  <p className="text-sys-color-14 text-sm">
+                    {invoices[0]!.clientAddress.postCode}
+                  </p>
+                  <p className="text-sys-color-14 text-sm">
+                    {invoices[0]!.clientAddress.country}
+                  </p>
                 </div>
                 <div className="mb-1 space-y-1">
                   <p className="text-sys-color-14 text-sm">Sent To</p>
-                  <p className="text-lg font-semibold">alexgrim@mail.com</p>
+                  <p className="text-lg font-semibold">
+                    {invoices[0]!.clientEmail}
+                  </p>
                 </div>
               </section>
               <section className="pt-4 rounded-md bg-sys-color-12 overflow-hidden">
@@ -110,29 +148,59 @@ const InvoiceDetailPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Item Name</td>
-                      <td className="text-center">1</td>
-                      <td className="text-right">Price</td>
-                      <td className="text-right">Total</td>
-                    </tr>
-                    <tr>
-                      <td>Item Name</td>
-                      <td className="text-center">2</td>
-                      <td className="text-right">Price</td>
-                      <td className="text-right">Total</td>
-                    </tr>
+                    {invoices[0]!.items.map(item => (
+                      <tr key={item.name}>
+                        <td>{item.name}</td>
+                        <td className="text-center">{item.quantity}</td>
+                        <td className="text-right">
+                          £ {item.price.toFixed(2)}
+                        </td>
+                        <td className="text-right">
+                          £ {item.total.toFixed(2)}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
                 <div className="w-full bg-sys-color-15 py-6 px-9 flex justify-between items-center mt-2">
                   <p className="text-sm">Amount Due</p>
-                  <p className="font-bold text-2xl">$ 9837.00</p>
+                  <p className="font-bold text-2xl">
+                    £{' '}
+                    {invoices[0]!.items
+                      .reduce((total, item) => (total += item.total), 0)
+                      .toFixed(2)}
+                  </p>
                 </div>
               </section>
             </div>
           </>
         )}
       </section>
+      <dialog
+        ref={dialogRef}
+        className="text-white max-w-lg space-y-2 p-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-sys-color-11 rounded-md open:backdrop:bg-black/50 transition-colors duration-700"
+      >
+        <p className="font-bold text-2xl">Confirm Deletion</p>
+        <p>
+          Are you sure you want to delete invoice #{invoices[0]!.id}? This
+          action cannot be undone.
+        </p>
+        <form method="dialog" className="w-full text-right space-x-4">
+          <button
+            className="bg-sys-color-12 rounded-full py-3 px-5"
+            value="submit"
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-sys-color-13 rounded-full py-3 px-5"
+            value="submit"
+            onClick={deleteInvoiceById}
+          >
+            Delete
+          </button>
+        </form>
+      </dialog>
     </main>
   )
 }
