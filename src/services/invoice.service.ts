@@ -12,3 +12,7 @@ export async function getAllInvoices() {
 export async function getAllInvoicesByStatus(status: InvoiceStatus) {
   return invoices.filter(invoice => invoice.status === status)
 }
+
+export async function getInvoiceById(id: string) {
+  return invoices.find(invoice => invoice.id === id)
+}
