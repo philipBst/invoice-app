@@ -14,5 +14,5 @@ export async function getAllInvoicesByStatus(status: InvoiceStatus) {
 }
 
 export async function getInvoiceById(id: string) {
-  return invoices.find(invoice => invoice.id === id)
+  return invoices.find(invoice => invoice.id.toLowerCase() === id.toLowerCase())
 }
