@@ -1,14 +1,40 @@
-import { useEffect } from 'react'
-import { getInvoices, useInvoice } from '../contexts/InvoiceContext'
+import { useEffect, useState } from 'react'
+import {
+  getInvoices,
+  getInvoicesByStatus,
+  useInvoice,
+} from '../contexts/InvoiceContext'
 
 import { Invoicebar } from '../components'
 
+import type { InvoiceStatus } from '../types'
+
 const InvoicesPage = () => {
+  const [filterBy, setFilterBy] = useState<InvoiceStatus | 'all'>('all')
   const { invoices, dispatch } = useInvoice()
 
   useEffect(() => {
-    getInvoices(dispatch)
-  }, [dispatch])
+    switch (filterBy) {
+      case 'all':
+        getInvoices(dispatch)
+        break
+      case 'draft':
+        getInvoicesByStatus('draft', dispatch)
+        break
+      case 'pending':
+        getInvoicesByStatus('pending', dispatch)
+        break
+      case 'paid':
+        getInvoicesByStatus('paid', dispatch)
+        break
+      default:
+        getInvoices(dispatch)
+    }
+  }, [dispatch, filterBy])
+
+  const changeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterBy(e.target.value as InvoiceStatus | 'all')
+  }
 
   return (
     <main className="flex items-center justify-center w-full">
@@ -22,8 +48,9 @@ const InvoicesPage = () => {
             <select
               name="filter-select"
               id="filter-select"
-              defaultValue="all"
+              defaultValue={filterBy}
               className="bg-sys-color-1 pr-2"
+              onChange={changeFilter}
             >
               <option value="all">Filter by status</option>
               <option value="draft">Draft</option>
