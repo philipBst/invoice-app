@@ -45,7 +45,9 @@ const InvoicesPage = () => {
         <div className="flex w-full items-center justify-between gap-x-56">
           <aside>
             <h1 className="text-2xl">Invoices</h1>
-            <span className="text-sys-color-5">There are 7 total invoices</span>
+            <span className="text-sys-color-5">
+              There are {invoices.length} total invoices
+            </span>
           </aside>
           <aside className="flex items-center justify-between gap-8">
             <select
