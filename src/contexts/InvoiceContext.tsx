@@ -5,6 +5,7 @@ import { HookUsedOutsideOfContextError } from '../errors'
 import {
   getAllInvoices,
   getAllInvoicesByStatus,
+  getInvoiceById,
 } from '../services/invoice.service'
 
 import type { IInvoice } from '../interfaces'
@@ -48,6 +49,15 @@ export async function getInvoicesByStatus(
 ) {
   const filteredInvoices = await getAllInvoicesByStatus(status)
   dispatch(filteredInvoices)
+}
+
+export async function getInvoiceByID(
+  id: string,
+  dispatch: React.Dispatch<IInvoice[]>,
+) {
+  const invoice = await getInvoiceById(id)
+  if (invoice) dispatch([invoice])
+  dispatch([])
 }
 
 export default InvoiceProvider
