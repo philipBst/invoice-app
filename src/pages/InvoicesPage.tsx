@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   getInvoices,
   getInvoicesByStatus,
@@ -32,9 +32,12 @@ const InvoicesPage = () => {
     }
   }, [dispatch, filterBy])
 
-  const changeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterBy(e.target.value as InvoiceStatus | 'all')
-  }
+  const changeFilter = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setFilterBy(e.target.value as InvoiceStatus | 'all')
+    },
+    [],
+  )
 
   return (
     <main className="flex items-center justify-center w-full">
