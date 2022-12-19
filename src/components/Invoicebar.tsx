@@ -30,7 +30,7 @@ const Invoicebar: React.FC<IInvoice> = ({
       </span>
       <span className="table-cell py-4 px-6">{clientName}</span>
       <span className="table-cell py-4 px-6 text-lg font-bold text-right">
-        £{total.toFixed(2)}
+        £ {total.toFixed(2)}
       </span>
       <span className="table-cell py-4 px-6">
         <InvoiceStatusChip status={status} />
