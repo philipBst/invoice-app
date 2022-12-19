@@ -2,9 +2,13 @@ import { createContext, useContext, useReducer } from 'react'
 
 import { HookUsedOutsideOfContextError } from '../errors'
 
-import { getAllInvoices } from '../services/invoice.service'
+import {
+  getAllInvoices,
+  getAllInvoicesByStatus,
+} from '../services/invoice.service'
 
 import type { IInvoice } from '../interfaces'
+import type { InvoiceStatus } from '../types'
 
 export type InvoiceContextValue = {
   invoices: IInvoice[]
@@ -36,6 +40,14 @@ export function useInvoice() {
 export async function getInvoices(dispatch: React.Dispatch<IInvoice[]>) {
   const invoices = await getAllInvoices()
   dispatch(invoices)
+}
+
+export async function getInvoicesByStatus(
+  status: InvoiceStatus,
+  dispatch: React.Dispatch<IInvoice[]>,
+) {
+  const filteredInvoices = await getAllInvoicesByStatus(status)
+  dispatch(filteredInvoices)
 }
 
 export default InvoiceProvider
