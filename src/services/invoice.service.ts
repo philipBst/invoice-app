@@ -3,7 +3,7 @@ import data from '../data/invoices.json'
 import type { IInvoice } from '../interfaces'
 import type { InvoiceStatus } from '../types/InvoiceStatus.type'
 
-const invoices: IInvoice[] = JSON.parse(JSON.stringify(data))
+let invoices: IInvoice[] = JSON.parse(JSON.stringify(data))
 
 export async function getAllInvoices() {
   return invoices
@@ -15,4 +15,10 @@ export async function getAllInvoicesByStatus(status: InvoiceStatus) {
 
 export async function getInvoiceById(id: string) {
   return invoices.find(invoice => invoice.id.toLowerCase() === id.toLowerCase())
+}
+
+export async function deleteInvoice(id: string) {
+  invoices = invoices.filter(
+    invoice => invoice.id.toLowerCase() !== id.toLowerCase(),
+  )
 }
