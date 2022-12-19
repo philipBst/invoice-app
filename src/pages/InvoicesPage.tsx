@@ -44,7 +44,7 @@ const InvoicesPage = () => {
             </button>
           </aside>
         </div>
-        <ul className="w-full space-y-4">
+        <ul className="w-full table border-spacing-y-4 border-separate">
           {invoices.map(invoice => (
             <Invoicebar key={invoice.id} {...invoice} />
           ))}
