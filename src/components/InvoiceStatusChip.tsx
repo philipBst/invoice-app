@@ -14,27 +14,19 @@ const InvoiceStatusChip: React.FC<InvoiceStatusChipProps> = ({ status }) => {
   return (
     <span
       className={classnames(
-        'flex',
-        'items-center',
-        'justify-center',
-        'gap-3',
-        'rounded-md',
-        'py-2',
-        'px-6',
-        'font-bold',
-        'capitalize',
+        'flex items-center justify-center gap-3 rounded-md py-2 px-6 font-bold capitalize',
         {
-          'bg-sys-color-7/10': isPaid,
+          'bg-sys-color-7/5': isPaid,
           'text-sys-color-7': isPaid,
-          'bg-sys-color-9/10': isPending,
+          'bg-sys-color-9/5': isPending,
           'text-sys-color-9': isPending,
-          'bg-sys-color-10/10': isDraft,
+          'bg-sys-color-10/5': isDraft,
           'text-sys-color-10': isDraft,
         },
       )}
     >
       <span
-        className={classnames('h-2', 'w-2', 'rounded-full', {
+        className={classnames('h-2 w-2 rounded-full', {
           'bg-sys-color-7': isPaid,
           'bg-sys-color-9': isPending,
           'bg-sys-color-10': isDraft,
