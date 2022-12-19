@@ -56,8 +56,11 @@ export async function getInvoiceByID(
   dispatch: React.Dispatch<IInvoice[]>,
 ) {
   const invoice = await getInvoiceById(id)
-  if (invoice) dispatch([invoice])
-  dispatch([])
+  if (!invoice) {
+    dispatch([])
+    return
+  }
+  dispatch([invoice])
 }
 
 export default InvoiceProvider
