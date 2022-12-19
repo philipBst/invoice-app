@@ -2,6 +2,7 @@ import { format } from 'date-fns'
 import { ArrowRightIcon } from './icons'
 
 import type { IInvoice } from '../interfaces'
+import InvoiceStatusChip from './InvoiceStatusChip'
 
 const Invoicebar: React.FC<IInvoice> = ({
   id,
@@ -20,10 +21,7 @@ const Invoicebar: React.FC<IInvoice> = ({
     </span>
     <span>{clientName}</span>
     <span className="text-lg font-bold">£{total}</span>
-    <span className="text-sys-color-7 bg-sys-color-7/10 flex items-center justify-center gap-3 rounded-md py-2 px-6 font-bold">
-      <span className="bg-sys-color-7 h-2 w-2 rounded-full"></span>
-      {status}
-    </span>
+    <InvoiceStatusChip status={status} />
     <span>
       <ArrowRightIcon />
     </span>
