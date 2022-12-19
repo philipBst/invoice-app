@@ -1,25 +1,22 @@
+import { useParams } from 'react-router-dom'
+
+import { InvoiceStatusChip } from '../components'
+import { ArrowLeftIcon } from '../components/icons'
+
 const InvoiceDetailPage = () => {
+  const { invoiceId } = useParams()
+  console.log(invoiceId)
   return (
     <main className="flex min-h-screen w-full justify-center bg-sys-color-1 text-white pb-8">
       <section className="mt-10 space-y-6">
         <div className="flex items-center gap-4">
-          <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M6.342.886L2.114 5.114l4.228 4.228"
-              stroke="#9277FF"
-              strokeWidth="2"
-              fill="none"
-              fillRule="evenodd"
-            />
-          </svg>
+          <ArrowLeftIcon />
           <span>Go back</span>
         </div>
         <div className="bg-sys-color-11 flex items-center gap-52 rounded-md py-4 px-6">
           <section className="flex items-center gap-4">
             <span>Status</span>
-            <span className="flex items-center justify-center gap-3 rounded-md bg-sys-color-7/10 py-2 px-6 font-bold text-sys-color-7">
-              <span className="h-2 w-2 rounded-full bg-sys-color-7"></span>Paid
-            </span>
+            <InvoiceStatusChip status="pending" />
           </section>
           <section className="flex items-center gap-4">
             <button className="bg-sys-color-12 rounded-full py-3 px-5">
