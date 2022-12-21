@@ -5,12 +5,14 @@ import {
   useInvoice,
 } from '../contexts/InvoiceContext'
 
-import { Invoicebar } from '../components'
+import { Invoicebar, SlideRight, InvoiceForm } from '../components'
 
 import type { InvoiceStatus } from '../types'
 
 const InvoicesPage = () => {
   const [filterBy, setFilterBy] = useState<InvoiceStatus | 'all'>('all')
+  const [shouldOpenInvoiceForm, setOpenInvoiceForm] = useState(false)
+
   const { invoices, dispatch } = useInvoice()
 
   useEffect(() => {
@@ -39,6 +41,10 @@ const InvoicesPage = () => {
     [],
   )
 
+  const openInvoiceForm = useCallback(() => setOpenInvoiceForm(true), [])
+
+  const closeInvoiceForm = useCallback(() => setOpenInvoiceForm(false), [])
+
   return (
     <main className="flex items-center justify-center w-full">
       <section className="m-10 space-y-10">
@@ -62,7 +68,10 @@ const InvoicesPage = () => {
               <option value="pending">Pending</option>
               <option value="paid">Paid</option>
             </select>
-            <button className="bg-sys-color-3 flex items-center justify-center gap-4 rounded-full p-2 pr-4">
+            <button
+              className="bg-sys-color-3 flex items-center justify-center gap-4 rounded-full p-2 pr-4"
+              onClick={openInvoiceForm}
+            >
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
                 <svg width="11" height="11" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -82,6 +91,9 @@ const InvoicesPage = () => {
           ))}
         </ul>
       </section>
+      <SlideRight open={shouldOpenInvoiceForm} onClose={closeInvoiceForm}>
+        <InvoiceForm></InvoiceForm>
+      </SlideRight>
     </main>
   )
 }
