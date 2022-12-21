@@ -13,20 +13,29 @@ const SlideRight: React.FC<React.PropsWithChildren<SlideRightProps>> = ({
 }) => {
   const closeSlider = useCallback(() => {
     onClose?.()
-  }, [])
+  }, [onClose])
 
   return (
     <aside
       className={classnames(
-        'w-full fixed top-0 bottom-0 right-0 z-10 transition-all duration-300',
+        'w-full fixed top-0 bottom-0 right-0 z-20 transition-transform duration-300',
         {
-          'left-0 bg-black/50': open,
-          '-left-full bg-transparent': !open,
+          'translate-x-0': open,
+          '-translate-x-full': !open,
         },
       )}
-      onClick={closeSlider}
     >
       {children}
+      <div
+        className={classnames(
+          'fixed top-0 z-[5] right-0 bottom-0 left-[29rem] transition-colors',
+          {
+            'bg-black/50 duration-1000': open,
+            'bg-transparent duration-75': !open,
+          },
+        )}
+        onClick={closeSlider}
+      ></div>
     </aside>
   )
 }
