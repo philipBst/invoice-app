@@ -17,7 +17,7 @@ const SlideRight: React.FC<React.PropsWithChildren<SlideRightProps>> = ({
 
   return (
     <aside
-      className={classnames('w-full fixed top-0 bottom-0 z-10', {
+      className={classnames('w-full fixed top-0 bottom-0 right-0 z-10', {
         'left-0 bg-black/50': open,
         '-left-full bg-transparent': !open,
       })}
