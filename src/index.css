@@ -10,5 +10,5 @@
 
 html,
 body {
-  @apply max-w-full overflow-x-hidden min-h-screen bg-sys-color-1 text-sys-color-8;
+  @apply max-w-full overflow-x-hidden min-h-screen bg-sys-color-1 text-sys-color-8 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-sys-color-12 scrollbar-track-transparent;
 }
