@@ -1,4 +1,4 @@
-# A simple invoice CRUD app
+# A simple invoicing CRUD app
 
 ## To start application
 
@@ -32,4 +32,4 @@ docker-compose up
 docker compose up
 ```
 
-## Great! the development server should br up and running on port 5173
+## Great! the development server should be up and running on port 5173
