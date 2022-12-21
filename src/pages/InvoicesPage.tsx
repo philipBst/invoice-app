@@ -7,7 +7,7 @@ import {
   useInvoice,
 } from '../contexts/InvoiceContext'
 
-import { Invoicebar, SlideRight, InvoiceForm } from '../components'
+import { Invoicebar, SlideRight, InvoiceForm, IconButton } from '../components'
 import { PlusIcon } from '../components/icons'
 
 import type { InvoiceStatus } from '../types'
@@ -79,15 +79,9 @@ const InvoicesPage = () => {
               options={invoiceOptions}
               onChange={changeFilter}
             />
-            <button
-              className="bg-sys-color-3 flex items-center justify-center gap-4 rounded-full p-2 pr-4"
-              onClick={openInvoiceForm}
-            >
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
-                <PlusIcon />
-              </span>
-              <span className="text-sm font-bold">New Invoice</span>
-            </button>
+            <IconButton startIcon={<PlusIcon />} onClick={openInvoiceForm}>
+              New Invoice
+            </IconButton>
           </aside>
         </div>
         <ul className="w-full table border-spacing-y-4 border-separate">
