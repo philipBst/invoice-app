@@ -92,7 +92,7 @@ const InvoicesPage = () => {
         </ul>
       </section>
       <SlideRight open={shouldOpenInvoiceForm} onClose={closeInvoiceForm}>
-        <InvoiceForm action="new" />
+        <InvoiceForm action="new" onCancel={closeInvoiceForm} />
       </SlideRight>
     </main>
   )
