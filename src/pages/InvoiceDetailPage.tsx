@@ -198,6 +198,7 @@ const InvoiceDetailPage = () => {
         <InvoiceForm
           action="edit"
           invoiceId={isEmptyArray(invoices) ? '' : invoices[0]!.id}
+          onCancel={closeInvoiceForm}
         />
       </SlideRight>
     </main>
