@@ -1,7 +1,7 @@
 import { SunIcon } from './icons'
 
 const Sidebar = () => (
-  <aside className="fixed left-0 top-0 bottom-0 w-24 overflow-hidden rounded-tr-3xl rounded-br-3xl bg-sys-color-2">
+  <aside className="fixed left-0 top-0 bottom-0 w-24 overflow-hidden rounded-tr-3xl rounded-br-3xl bg-sys-color-2 z-20">
     <div className="bg-sys-color-3 flex h-24 w-full items-center justify-center rounded-br-3xl">
       <span className="h-12 w-12 rounded-full bg-white"></span>
     </div>
