@@ -4,6 +4,7 @@ import { HookUsedOutsideOfContextError } from '../errors'
 
 import {
   createNewInvoice,
+  editInvoiceById,
   getAllInvoices,
   getAllInvoicesByStatus,
   getInvoiceById,
@@ -82,6 +83,14 @@ export async function addNewDraftInvoice(
   await createNewInvoice(invoice)
   const invoices = await getAllInvoices()
   dispatch(invoices)
+}
+
+export async function editInvoice(
+  invoice: IInvoice,
+  dispatch: React.Dispatch<IInvoice[]>,
+) {
+  editInvoiceById(invoice)
+  dispatch([invoice])
 }
 
 export default InvoiceProvider
