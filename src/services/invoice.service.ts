@@ -38,6 +38,14 @@ function generateId() {
   return id
 }
 
+export async function editInvoiceById(data: IInvoice) {
+  let invoice = invoices.find(invoice => invoice.id === data.id)
+  invoice = {
+    ...invoice,
+    ...data,
+  }
+}
+
 export async function deleteInvoice(id: string) {
   invoices = invoices.filter(
     invoice => invoice.id.toLowerCase() !== id.toLowerCase(),
