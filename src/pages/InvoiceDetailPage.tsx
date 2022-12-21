@@ -2,7 +2,7 @@ import { format } from 'date-fns'
 import { useCallback, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
-import { InvoiceStatusChip } from '../components'
+import { DeletePromptDialog, InvoiceStatusChip } from '../components'
 import { ArrowLeftIcon, NothingHereIllustration } from '../components/icons'
 import { getInvoiceByID, useInvoice } from '../contexts/InvoiceContext'
 import { deleteInvoice } from '../services/invoice.service'
@@ -176,31 +176,7 @@ const InvoiceDetailPage = () => {
           </>
         )}
       </section>
-      <dialog
-        ref={dialogRef}
-        className="text-white max-w-lg space-y-2 p-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-sys-color-11 rounded-md open:backdrop:bg-black/50 transition-colors duration-700"
-      >
-        <p className="font-bold text-2xl">Confirm Deletion</p>
-        <p>
-          Are you sure you want to delete invoice #{invoices[0]!.id}? This
-          action cannot be undone.
-        </p>
-        <form method="dialog" className="w-full text-right space-x-4">
-          <button
-            className="bg-sys-color-12 rounded-full py-3 px-5"
-            value="submit"
-          >
-            Cancel
-          </button>
-          <button
-            className="bg-sys-color-13 rounded-full py-3 px-5"
-            value="submit"
-            onClick={deleteInvoiceById}
-          >
-            Delete
-          </button>
-        </form>
-      </dialog>
+      <DeletePromptDialog ref={dialogRef} onDelete={deleteInvoiceById} />
     </main>
   )
 }
