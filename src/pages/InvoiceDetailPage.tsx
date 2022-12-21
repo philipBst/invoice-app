@@ -9,15 +9,16 @@ import {
   SlideRight,
 } from '../components'
 import { ArrowLeftIcon, NothingHereIllustration } from '../components/icons'
-import { getInvoiceByID, useInvoice } from '../contexts/InvoiceContext'
-import { deleteInvoice } from '../services/invoice.service'
-import { isEmptyArray } from '../utils/array-utils'
+import { editInvoice, useInvoice } from '../contexts/InvoiceContext'
+import type { IInvoice } from '../interfaces'
+import { deleteInvoice, getInvoiceById } from '../services/invoice.service'
 
 const InvoiceDetailPage = () => {
+  const [invoice, setInvoice] = useState<IInvoice>()
   const { invoiceId } = useParams()
   const navigate = useNavigate()
   const [shouldOpenInvoiceForm, setOpenInvoiceForm] = useState(false)
-  const { invoices, dispatch } = useInvoice()
+  const { dispatch } = useInvoice()
 
   const dialogRef = useRef<HTMLDialogElement>(null)
 
@@ -26,8 +27,13 @@ const InvoiceDetailPage = () => {
   }
 
   useEffect(() => {
-    if (invoiceId) getInvoiceByID(invoiceId, dispatch)
-  }, [dispatch, invoiceId])
+    if (invoiceId) {
+      ;(async () => {
+        const invoice = await getInvoiceById(invoiceId)
+        setInvoice(invoice)
+      })()
+    }
+  }, [invoiceId])
 
   const goToInvoicesPage = useCallback(() => {
     navigate('/invoices')
@@ -42,6 +48,13 @@ const InvoiceDetailPage = () => {
 
   const closeInvoiceForm = useCallback(() => setOpenInvoiceForm(false), [])
 
+  const onSaveChanges = useCallback(
+    (invoice: IInvoice) => {
+      editInvoice(invoice, dispatch)
+    },
+    [dispatch],
+  )
+
   return (
     <main className="flex min-h-screen w-full justify-center bg-sys-color-1 text-white pb-8">
       <section className="mt-10 space-y-6">
@@ -52,17 +65,12 @@ const InvoiceDetailPage = () => {
           <ArrowLeftIcon />
           <span>Go back</span>
         </div>
-        {isEmptyArray(invoices) ? (
-          <div className="p-32 text-center space-y-8">
-            <NothingHereIllustration />
-            <p className="text-2xl">Nothing here</p>
-          </div>
-        ) : (
+        {invoice ? (
           <>
             <div className="bg-sys-color-11 flex items-center gap-52 rounded-md py-4 px-6">
               <section className="flex items-center gap-4">
                 <span>Status</span>
-                <InvoiceStatusChip status={invoices[0]!.status} />
+                <InvoiceStatusChip status={invoice.status} />
               </section>
               <section className="flex items-center gap-4">
                 <button
@@ -79,7 +87,7 @@ const InvoiceDetailPage = () => {
                 </button>
                 <button
                   className="rounded-full bg-sys-color-3 py-3 px-5 disabled:cursor-not-allowed"
-                  disabled={invoices[0]!.status !== 'pending'}
+                  disabled={invoice.status !== 'pending'}
                 >
                   Mark as Paid
                 </button>
@@ -90,24 +98,24 @@ const InvoiceDetailPage = () => {
                 <div className="space-y-1">
                   <span className="flex gap-0 text-lg font-bold">
                     <span className="text-sys-color-6">#</span>
-                    <span>{invoices[0]!.id}</span>
+                    <span>{invoice.id}</span>
                   </span>
                   <p className="text-sys-color-14 text-sm">
-                    {invoices[0]!.description}
+                    {invoice.description}
                   </p>
                 </div>
                 <div>
                   <p className="text-sys-color-14 text-right text-sm">
-                    {invoices[0]!.senderAddress.street}
+                    {invoice.senderAddress.street}
                   </p>
                   <p className="text-sys-color-14 text-right text-sm">
-                    {invoices[0]!.senderAddress.city}
+                    {invoice.senderAddress.city}
                   </p>
                   <p className="text-sys-color-14 text-right text-sm">
-                    {invoices[0]!.senderAddress.postCode}
+                    {invoice.senderAddress.postCode}
                   </p>
                   <p className="text-sys-color-14 text-right text-sm">
-                    {invoices[0]!.senderAddress.country}
+                    {invoice.senderAddress.country}
                   </p>
                 </div>
               </section>
@@ -116,13 +124,13 @@ const InvoiceDetailPage = () => {
                   <div className="space-y-1">
                     <p className="text-sys-color-14 text-sm">Invoice Date</p>
                     <p className="text-lg font-semibold">
-                      {format(new Date(invoices[0]!.createdAt), 'dd MMM yyy')}
+                      {format(new Date(invoice.createdAt), 'dd MMM yyy')}
                     </p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-sys-color-14 text-sm">Payment Due</p>
                     <p className="text-lg font-semibold">
-                      {format(new Date(invoices[0]!.paymentDue), 'dd MMM yyy')}
+                      {format(new Date(invoice.paymentDue), 'dd MMM yyy')}
                     </p>
                   </div>
                 </div>
@@ -130,27 +138,25 @@ const InvoiceDetailPage = () => {
                   <div className="mb-1 space-y-1">
                     <p className="text-sys-color-14 text-sm">Bill To</p>
                     <p className="text-lg font-semibold">
-                      {invoices[0]!.clientName}
+                      {invoice.clientName}
                     </p>
                   </div>
                   <p className="text-sys-color-14 text-sm">
-                    {invoices[0]!.clientAddress.street}
+                    {invoice.clientAddress.street}
                   </p>
                   <p className="text-sys-color-14 text-sm">
-                    {invoices[0]!.clientAddress.city}
+                    {invoice.clientAddress.city}
                   </p>
                   <p className="text-sys-color-14 text-sm">
-                    {invoices[0]!.clientAddress.postCode}
+                    {invoice.clientAddress.postCode}
                   </p>
                   <p className="text-sys-color-14 text-sm">
-                    {invoices[0]!.clientAddress.country}
+                    {invoice.clientAddress.country}
                   </p>
                 </div>
                 <div className="mb-1 space-y-1">
                   <p className="text-sys-color-14 text-sm">Sent To</p>
-                  <p className="text-lg font-semibold">
-                    {invoices[0]!.clientEmail}
-                  </p>
+                  <p className="text-lg font-semibold">{invoice.clientEmail}</p>
                 </div>
               </section>
               <section className="pt-4 rounded-md bg-sys-color-12 overflow-hidden">
@@ -164,7 +170,7 @@ const InvoiceDetailPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {invoices[0]!.items.map(item => (
+                    {invoice.items.map(item => (
                       <tr key={item.name}>
                         <td>{item.name}</td>
                         <td className="text-center">{item.quantity}</td>
@@ -182,7 +188,7 @@ const InvoiceDetailPage = () => {
                   <p className="text-sm">Amount Due</p>
                   <p className="font-bold text-2xl">
                     £{' '}
-                    {invoices[0]!.items
+                    {invoice.items
                       .reduce((total, item) => (total += item.total), 0)
                       .toFixed(2)}
                   </p>
@@ -190,19 +196,28 @@ const InvoiceDetailPage = () => {
               </section>
             </div>
           </>
+        ) : (
+          <div className="p-32 text-center space-y-8">
+            <NothingHereIllustration />
+            <p className="text-2xl">Nothing here</p>
+          </div>
         )}
       </section>
       <DeletePromptDialog
         ref={dialogRef}
-        invoiceId={isEmptyArray(invoices) ? '' : invoices[0]!.id}
+        invoiceId={invoice?.id || ''}
         onDelete={deleteInvoiceById}
       />
       <SlideRight open={shouldOpenInvoiceForm} onClose={closeInvoiceForm}>
-        <InvoiceForm
-          action="edit"
-          invoiceId={isEmptyArray(invoices) ? '' : invoices[0]!.id}
-          onCancel={closeInvoiceForm}
-        />
+        {invoice && (
+          <InvoiceForm
+            action="edit"
+            invoiceId={invoice?.id || ''}
+            onCancel={closeInvoiceForm}
+            invoice={invoice}
+            onSave={onSaveChanges}
+          />
+        )}
       </SlideRight>
     </main>
   )
