@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import {
+  Box,
   Button,
   DeletePromptDialog,
   InvoiceForm,
@@ -68,23 +69,26 @@ const InvoiceDetailPage = () => {
   }, [])
 
   return (
-    <main className="flex min-h-screen w-full justify-center bg-sys-color-1 text-white pb-8">
-      <section className="mt-10 space-y-6">
-        <div
+    <Box
+      as="main"
+      className="flex min-h-screen w-full justify-center bg-sys-color-1 text-white pb-8"
+    >
+      <Box as="section" className="mt-10 space-y-6">
+        <Box
           className="flex items-center gap-4 cursor-pointer"
           onClick={goToInvoicesPage}
         >
           <ArrowLeftIcon />
           <span>Go back</span>
-        </div>
+        </Box>
         {invoice ? (
           <>
-            <div className="bg-sys-color-11 flex items-center gap-52 rounded-md py-4 px-6">
-              <section className="flex items-center gap-4">
+            <Box className="bg-sys-color-11 flex items-center gap-52 rounded-md py-4 px-6">
+              <Box as="section" className="flex items-center gap-4">
                 <span>Status</span>
                 <InvoiceStatusChip status={invoice.status} />
-              </section>
-              <section className="flex items-center gap-4">
+              </Box>
+              <Box as="section" className="flex items-center gap-4">
                 <Button className="bg-sys-color-12" onClick={openInvoiceForm}>
                   Edit
                 </Button>
@@ -101,17 +105,17 @@ const InvoiceDetailPage = () => {
                 >
                   Mark as Paid
                 </Button>
-              </section>
-            </div>
+              </Box>
+            </Box>
             <InvoiceInfo {...invoice} />
           </>
         ) : (
-          <div className="p-32 text-center space-y-8">
+          <Box className="p-32 text-center space-y-8">
             <NothingHereIllustration />
             <p className="text-2xl">Nothing here</p>
-          </div>
+          </Box>
         )}
-      </section>
+      </Box>
       <DeletePromptDialog
         ref={dialogRef}
         invoiceId={invoice?.id || ''}
@@ -128,7 +132,7 @@ const InvoiceDetailPage = () => {
           />
         )}
       </SlideRight>
-    </main>
+    </Box>
   )
 }
 
