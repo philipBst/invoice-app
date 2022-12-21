@@ -11,7 +11,11 @@ import {
 import { ArrowLeftIcon, NothingHereIllustration } from '../components/icons'
 import { editInvoice, useInvoice } from '../contexts/InvoiceContext'
 import type { IInvoice } from '../interfaces'
-import { deleteInvoice, getInvoiceById } from '../services/invoice.service'
+import {
+  deleteInvoice,
+  getInvoiceById,
+  markInvoiceAsPaid,
+} from '../services/invoice.service'
 
 const InvoiceDetailPage = () => {
   const [invoice, setInvoice] = useState<IInvoice>()
@@ -57,6 +61,11 @@ const InvoiceDetailPage = () => {
     [dispatch],
   )
 
+  const markAsPaid = useCallback(() => {
+    if (invoiceId) markInvoiceAsPaid(invoiceId)
+    setInvoice(state => ({ ...state!, status: 'paid' }))
+  }, [])
+
   return (
     <main className="flex min-h-screen w-full justify-center bg-sys-color-1 text-white pb-8">
       <section className="mt-10 space-y-6">
@@ -90,6 +99,7 @@ const InvoiceDetailPage = () => {
                 <button
                   className="rounded-full bg-sys-color-3 py-3 px-5 disabled:cursor-not-allowed"
                   disabled={invoice.status !== 'pending'}
+                  onClick={markAsPaid}
                 >
                   Mark as Paid
                 </button>
