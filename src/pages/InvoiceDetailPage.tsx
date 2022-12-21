@@ -1,8 +1,13 @@
 import { format } from 'date-fns'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
-import { DeletePromptDialog, InvoiceStatusChip } from '../components'
+import {
+  DeletePromptDialog,
+  InvoiceForm,
+  InvoiceStatusChip,
+  SlideRight,
+} from '../components'
 import { ArrowLeftIcon, NothingHereIllustration } from '../components/icons'
 import { getInvoiceByID, useInvoice } from '../contexts/InvoiceContext'
 import { deleteInvoice } from '../services/invoice.service'
@@ -11,6 +16,7 @@ import { isEmptyArray } from '../utils/array-utils'
 const InvoiceDetailPage = () => {
   const { invoiceId } = useParams()
   const navigate = useNavigate()
+  const [shouldOpenInvoiceForm, setOpenInvoiceForm] = useState(false)
   const { invoices, dispatch } = useInvoice()
 
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -31,6 +37,10 @@ const InvoiceDetailPage = () => {
     if (invoiceId) await deleteInvoice(invoiceId)
     navigate('/invoices')
   }, [])
+
+  const openInvoiceForm = useCallback(() => setOpenInvoiceForm(true), [])
+
+  const closeInvoiceForm = useCallback(() => setOpenInvoiceForm(false), [])
 
   return (
     <main className="flex min-h-screen w-full justify-center bg-sys-color-1 text-white pb-8">
@@ -55,7 +65,10 @@ const InvoiceDetailPage = () => {
                 <InvoiceStatusChip status={invoices[0]!.status} />
               </section>
               <section className="flex items-center gap-4">
-                <button className="bg-sys-color-12 rounded-full py-3 px-5">
+                <button
+                  className="bg-sys-color-12 rounded-full py-3 px-5"
+                  onClick={openInvoiceForm}
+                >
                   Edit
                 </button>
                 <button
@@ -181,6 +194,12 @@ const InvoiceDetailPage = () => {
         invoiceId={isEmptyArray(invoices) ? '' : invoices[0]!.id}
         onDelete={deleteInvoiceById}
       />
+      <SlideRight open={shouldOpenInvoiceForm} onClose={closeInvoiceForm}>
+        <InvoiceForm
+          action="edit"
+          invoiceId={isEmptyArray(invoices) ? '' : invoices[0]!.id}
+        />
+      </SlideRight>
     </main>
   )
 }
