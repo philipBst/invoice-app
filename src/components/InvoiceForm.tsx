@@ -71,7 +71,10 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
       </form>
       <div className="flex items-center justify-between bg-sys-color-1 w-full text-sm">
         {action === 'new' ? (
-          <button className="rounded-full bg-sys-color-8 text-sys-color-3 py-3 px-5">
+          <button
+            className="rounded-full bg-sys-color-8 text-sys-color-3 py-3 px-5"
+            onClick={onCancel}
+          >
             Discard
           </button>
         ) : (
