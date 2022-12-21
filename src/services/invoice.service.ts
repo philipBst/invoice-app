@@ -45,6 +45,18 @@ export async function editInvoiceById(data: IInvoice) {
   })
 }
 
+export async function markInvoiceAsPaid(id: IInvoice['id']) {
+  invoices = invoices.map(invoice => {
+    if (invoice.id === id) {
+      return {
+        ...invoice,
+        status: 'paid',
+      }
+    }
+    return invoice
+  })
+}
+
 export async function deleteInvoice(id: string) {
   invoices = invoices.filter(
     invoice => invoice.id.toLowerCase() !== id.toLowerCase(),
