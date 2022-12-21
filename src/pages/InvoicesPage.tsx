@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import {
+  addNewDraftInvoice,
+  addNewInvoice,
   getInvoices,
   getInvoicesByStatus,
   useInvoice,
@@ -8,6 +10,7 @@ import {
 import { Invoicebar, SlideRight, InvoiceForm } from '../components'
 
 import type { InvoiceStatus } from '../types'
+import type { IInvoice } from '../interfaces'
 
 const InvoicesPage = () => {
   const [filterBy, setFilterBy] = useState<InvoiceStatus | 'all'>('all')
@@ -44,6 +47,16 @@ const InvoicesPage = () => {
   const openInvoiceForm = useCallback(() => setOpenInvoiceForm(true), [])
 
   const closeInvoiceForm = useCallback(() => setOpenInvoiceForm(false), [])
+
+  const onSave = useCallback((invoice: IInvoice) => {
+    addNewInvoice(invoice, dispatch)
+    closeInvoiceForm()
+  }, [])
+
+  const onSaveAsDraft = useCallback((invoice: IInvoice) => {
+    addNewDraftInvoice(invoice, dispatch)
+    closeInvoiceForm()
+  }, [])
 
   return (
     <main className="flex items-center justify-center w-full">
@@ -92,7 +105,12 @@ const InvoicesPage = () => {
         </ul>
       </section>
       <SlideRight open={shouldOpenInvoiceForm} onClose={closeInvoiceForm}>
-        <InvoiceForm action="new" onCancel={closeInvoiceForm} />
+        <InvoiceForm
+          action="new"
+          onCancel={closeInvoiceForm}
+          onSave={onSave}
+          onSaveAsDraft={onSaveAsDraft}
+        />
       </SlideRight>
     </main>
   )
