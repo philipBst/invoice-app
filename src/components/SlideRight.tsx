@@ -17,10 +17,13 @@ const SlideRight: React.FC<React.PropsWithChildren<SlideRightProps>> = ({
 
   return (
     <aside
-      className={classnames('w-full fixed top-0 bottom-0 right-0 z-10', {
-        'left-0 bg-black/50': open,
-        '-left-full bg-transparent': !open,
-      })}
+      className={classnames(
+        'w-full fixed top-0 bottom-0 right-0 z-10 transition-all duration-300',
+        {
+          'left-0 bg-black/50': open,
+          '-left-full bg-transparent': !open,
+        },
+      )}
       onClick={closeSlider}
     >
       {children}
