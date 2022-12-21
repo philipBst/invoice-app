@@ -39,11 +39,10 @@ function generateId() {
 }
 
 export async function editInvoiceById(data: IInvoice) {
-  let invoice = invoices.find(invoice => invoice.id === data.id)
-  invoice = {
-    ...invoice,
-    ...data,
-  }
+  invoices = invoices.map(invoice => {
+    if (invoice.id === data.id) return { ...invoice, ...data }
+    return invoice
+  })
 }
 
 export async function deleteInvoice(id: string) {
