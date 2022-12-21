@@ -6,9 +6,18 @@ export type InvoiceFormProps = {
   action: 'new' | 'edit'
   invoiceId?: string
   invoice?: IInvoice
+  onSaveAsDraft?: () => void
+  onCancel?: () => void
+  onSave?: () => void
 }
 
-const InvoiceForm: React.FC<InvoiceFormProps> = ({ action, invoiceId }) => {
+const InvoiceForm: React.FC<InvoiceFormProps> = ({
+  action,
+  invoiceId,
+  onSaveAsDraft,
+  onCancel,
+  onSave,
+}) => {
   return (
     <section className="ml-20 w-[30rem] space-y-6 bg-sys-color-1 absolute p-10 pr-4 pt-8 pl-14 top-0 left-0 bottom-0 rounded-tr-3xl">
       <p className="font-bold text-xl">
@@ -69,10 +78,16 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ action, invoiceId }) => {
           <span />
         )}
         <div className="flex items-center gap-4">
-          <button className="rounded-full bg-sys-color-17 text-sys-color-10 py-3 px-5">
+          <button
+            className="rounded-full bg-sys-color-17 text-sys-color-10 py-3 px-5"
+            onClick={onSaveAsDraft || onCancel}
+          >
             {action === 'new' ? 'Save as Draft' : 'Cancel'}
           </button>
-          <button className="rounded-full bg-sys-color-3 text-white py-3 px-5">
+          <button
+            className="rounded-full bg-sys-color-3 text-white py-3 px-5"
+            onClick={onSave}
+          >
             {action === 'new' ? 'Save & Send' : 'Save Changes'}
           </button>
         </div>
