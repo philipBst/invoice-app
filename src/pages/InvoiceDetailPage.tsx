@@ -77,7 +77,10 @@ const InvoiceDetailPage = () => {
                 >
                   Delete
                 </button>
-                <button className="rounded-full bg-sys-color-3 py-3 px-5">
+                <button
+                  className="rounded-full bg-sys-color-3 py-3 px-5 disabled:cursor-not-allowed"
+                  disabled={invoices[0]!.status !== 'pending'}
+                >
                   Mark as Paid
                 </button>
               </section>
