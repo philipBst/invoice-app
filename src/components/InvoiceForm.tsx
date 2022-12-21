@@ -8,9 +8,9 @@ export type InvoiceFormProps = {
   action: 'new' | 'edit'
   invoiceId?: string
   invoice?: IInvoice | undefined
-  onSaveAsDraft?: () => void
+  onSaveAsDraft?: (invoice: IInvoice) => void
   onCancel?: () => void
-  onSave?: () => void
+  onSave?: (invoice: IInvoice) => void
 }
 
 const InvoiceForm: React.FC<InvoiceFormProps> = ({
@@ -23,6 +23,10 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
 }) => {
   const { register, handleSubmit, getValues } = useForm<IInvoice>({
     defaultValues: {
+      total: 0,
+      items: [],
+      createdAt: new Date().toISOString(),
+      paymentDue: new Date().toISOString(),
       ...invoice,
     },
   })
@@ -133,7 +137,8 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
             className="rounded-full bg-sys-color-17 text-sys-color-10 py-3 px-5"
             onClick={() => {
               const invoice = getValues()
-              console.log(invoice, 'draft')
+              if (action === 'new') onSaveAsDraft?.(invoice)
+              else onCancel?.()
             }}
           >
             {action === 'new' ? 'Save as Draft' : 'Cancel'}
@@ -141,8 +146,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
           <button
             className="rounded-full bg-sys-color-3 text-white py-3 px-5"
             onClick={handleSubmit(invoice => {
-              console.log(invoice, 'new')
-              onSave?.()
+              onSave?.(invoice)
             })}
           >
             {action === 'new' ? 'Save & Send' : 'Save Changes'}
