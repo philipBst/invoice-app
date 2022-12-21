@@ -12,6 +12,8 @@ import { PlusIcon } from '../components/icons'
 
 import type { InvoiceStatus } from '../types'
 import type { IInvoice } from '../interfaces'
+import Select from '../components/Select'
+import { invoiceOptions } from '../constants'
 
 const InvoicesPage = () => {
   const [filterBy, setFilterBy] = useState<InvoiceStatus | 'all'>('all')
@@ -70,18 +72,13 @@ const InvoicesPage = () => {
             </span>
           </aside>
           <aside className="flex items-center justify-between gap-8">
-            <select
+            <Select
               name="filter-select"
               id="filter-select"
               defaultValue={filterBy}
-              className="bg-sys-color-1 pr-2"
+              options={invoiceOptions}
               onChange={changeFilter}
-            >
-              <option value="all">Filter by status</option>
-              <option value="draft">Draft</option>
-              <option value="pending">Pending</option>
-              <option value="paid">Paid</option>
-            </select>
+            />
             <button
               className="bg-sys-color-3 flex items-center justify-center gap-4 rounded-full p-2 pr-4"
               onClick={openInvoiceForm}
