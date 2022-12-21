@@ -90,7 +90,7 @@ export async function editInvoice(
   dispatch: React.Dispatch<IInvoice[]>,
 ) {
   editInvoiceById(invoice)
-  dispatch([invoice])
+  dispatch(await getAllInvoices())
 }
 
 export default InvoiceProvider
