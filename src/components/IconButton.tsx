@@ -1,12 +1,14 @@
 import { forwardRef } from 'react'
 
 export type IconButtonProps = {
+  label?: string
   startIcon?: React.ReactNode
 }
 
 const IconButton = forwardRef(
   (
     {
+      label,
       startIcon,
       ...props
     }: IconButtonProps &
@@ -24,7 +26,7 @@ const IconButton = forwardRef(
       <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
         {startIcon}
       </span>
-      <span className="text-sm font-bold">New Invoice</span>
+      <span className="text-sm font-bold">{label}</span>
     </button>
   ),
 )
