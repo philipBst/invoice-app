@@ -51,6 +51,8 @@ const InvoiceDetailPage = () => {
   const onSaveChanges = useCallback(
     (invoice: IInvoice) => {
       editInvoice(invoice, dispatch)
+      setInvoice(invoice)
+      closeInvoiceForm()
     },
     [dispatch],
   )
