@@ -31,7 +31,7 @@ const SlideRight: React.FC<React.PropsWithChildren<SlideRightProps>> = ({
           'fixed top-0 z-[5] right-0 bottom-0 left-[29rem] transition-colors',
           {
             'bg-black/50 duration-1000': open,
-            'bg-transparent duration-75': !open,
+            'bg-transparent duration-[0]': !open,
           },
         )}
         onClick={closeSlider}
