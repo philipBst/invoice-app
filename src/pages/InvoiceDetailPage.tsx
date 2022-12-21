@@ -178,7 +178,7 @@ const InvoiceDetailPage = () => {
       </section>
       <DeletePromptDialog
         ref={dialogRef}
-        invoiceId={invoices[0]!.id}
+        invoiceId={isEmptyArray(invoices) ? '' : invoices[0]!.id}
         onDelete={deleteInvoiceById}
       />
     </main>
