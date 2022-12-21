@@ -2,6 +2,7 @@ import { forwardRef } from 'react'
 import Dialog from './Dialog'
 
 export type DeletePromptDialogProps = {
+  invoiceId: string
   onDelete?: () => void
   onDeleteCancel?: () => void
 } & React.PropsWithChildren<
@@ -13,14 +14,14 @@ export type DeletePromptDialogProps = {
 
 const DeletePromptDialog = forwardRef(
   (
-    { id, onDelete, onDeleteCancel, ...props }: DeletePromptDialogProps,
+    { invoiceId, onDelete, onDeleteCancel, ...props }: DeletePromptDialogProps,
     ref?: React.ForwardedRef<HTMLDialogElement>,
   ) => (
-    <Dialog id={id} {...props} ref={ref}>
+    <Dialog {...props} ref={ref}>
       <p className="font-bold text-2xl">Confirm Deletion</p>
       <p>
-        Are you sure you want to delete invoice #{id}? This action cannot be
-        undone.
+        Are you sure you want to delete invoice #{invoiceId}? This action cannot
+        be undone.
       </p>
       <form method="dialog" className="w-full text-right space-x-4">
         <button
