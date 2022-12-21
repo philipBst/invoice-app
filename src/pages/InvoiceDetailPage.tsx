@@ -176,7 +176,11 @@ const InvoiceDetailPage = () => {
           </>
         )}
       </section>
-      <DeletePromptDialog ref={dialogRef} onDelete={deleteInvoiceById} />
+      <DeletePromptDialog
+        ref={dialogRef}
+        invoiceId={invoices[0]!.id}
+        onDelete={deleteInvoiceById}
+      />
     </main>
   )
 }
