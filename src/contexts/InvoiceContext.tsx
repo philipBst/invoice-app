@@ -3,6 +3,7 @@ import { createContext, useContext, useReducer } from 'react'
 import { HookUsedOutsideOfContextError } from '../errors'
 
 import {
+  createNewInvoice,
   getAllInvoices,
   getAllInvoicesByStatus,
   getInvoiceById,
@@ -61,6 +62,26 @@ export async function getInvoiceByID(
     return
   }
   dispatch([invoice])
+}
+
+export async function addNewInvoice(
+  invoice: IInvoice,
+  dispatch: React.Dispatch<IInvoice[]>,
+) {
+  invoice.status = 'pending'
+  await createNewInvoice(invoice)
+  const invoices = await getAllInvoices()
+  dispatch(invoices)
+}
+
+export async function addNewDraftInvoice(
+  invoice: IInvoice,
+  dispatch: React.Dispatch<IInvoice[]>,
+) {
+  invoice.status = 'draft'
+  await createNewInvoice(invoice)
+  const invoices = await getAllInvoices()
+  dispatch(invoices)
 }
 
 export default InvoiceProvider
