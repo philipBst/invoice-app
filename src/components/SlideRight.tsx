@@ -3,7 +3,6 @@ import classnames from 'classnames'
 
 export type SlideRightProps = {
   open: boolean
-  onOpen?: () => void
   onClose?: () => void
 }
 
