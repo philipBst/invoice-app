@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import {
+  Button,
   DeletePromptDialog,
   InvoiceForm,
   InvoiceInfo,
@@ -84,25 +85,22 @@ const InvoiceDetailPage = () => {
                 <InvoiceStatusChip status={invoice.status} />
               </section>
               <section className="flex items-center gap-4">
-                <button
-                  className="bg-sys-color-12 rounded-full py-3 px-5"
-                  onClick={openInvoiceForm}
-                >
+                <Button className="bg-sys-color-12" onClick={openInvoiceForm}>
                   Edit
-                </button>
-                <button
+                </Button>
+                <Button
                   className="bg-sys-color-13 rounded-full py-3 px-5"
                   onClick={openPropmptDialog}
                 >
                   Delete
-                </button>
-                <button
+                </Button>
+                <Button
                   className="rounded-full bg-sys-color-3 py-3 px-5 disabled:cursor-not-allowed"
                   disabled={invoice.status !== 'pending'}
                   onClick={markAsPaid}
                 >
                   Mark as Paid
-                </button>
+                </Button>
               </section>
             </div>
             <InvoiceInfo {...invoice} />
