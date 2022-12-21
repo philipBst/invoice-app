@@ -28,7 +28,7 @@ const Select = forwardRef(
     <select
       ref={ref}
       {...props}
-      className={classnames('bg-sys-color-1 pr-2', className)}
+      className={classnames('bg-sys-color-1 pr-2 outline-none', className)}
     >
       {options.map(({ value, label }) => (
         <Option value={value} label={label} />
