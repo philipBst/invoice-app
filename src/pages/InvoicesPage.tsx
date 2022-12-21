@@ -7,7 +7,13 @@ import {
   useInvoice,
 } from '../contexts/InvoiceContext'
 
-import { Invoicebar, SlideRight, InvoiceForm, IconButton } from '../components'
+import {
+  Invoicebar,
+  SlideRight,
+  InvoiceForm,
+  IconButton,
+  Box,
+} from '../components'
 import { PlusIcon } from '../components/icons'
 
 import type { InvoiceStatus } from '../types'
@@ -62,16 +68,16 @@ const InvoicesPage = () => {
   }, [])
 
   return (
-    <main className="flex items-center justify-center w-full">
-      <section className="m-10 space-y-10">
-        <div className="flex w-full items-center justify-between gap-x-56">
-          <aside>
+    <Box as="main" className="flex items-center justify-center w-full">
+      <Box as="section" className="m-10 space-y-10">
+        <Box className="flex w-full items-center justify-between gap-x-56">
+          <Box as="aside">
             <h1 className="text-2xl">Invoices</h1>
             <span className="text-sys-color-5">
               There are {invoices.length} total invoices
             </span>
-          </aside>
-          <aside className="flex items-center justify-between gap-8">
+          </Box>
+          <Box as="aside" className="flex items-center justify-between gap-8">
             <Select
               name="filter-select"
               id="filter-select"
@@ -82,14 +88,14 @@ const InvoicesPage = () => {
             <IconButton startIcon={<PlusIcon />} onClick={openInvoiceForm}>
               New Invoice
             </IconButton>
-          </aside>
-        </div>
+          </Box>
+        </Box>
         <ul className="w-full table border-spacing-y-4 border-separate">
           {invoices.map(invoice => (
             <Invoicebar key={invoice.id} {...invoice} />
           ))}
         </ul>
-      </section>
+      </Box>
       <SlideRight open={shouldOpenInvoiceForm} onClose={closeInvoiceForm}>
         <InvoiceForm
           action="new"
@@ -98,7 +104,7 @@ const InvoicesPage = () => {
           onSaveAsDraft={onSaveAsDraft}
         />
       </SlideRight>
-    </main>
+    </Box>
   )
 }
 
